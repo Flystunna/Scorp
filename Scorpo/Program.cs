@@ -102,18 +102,18 @@ namespace Scorpo
             for (int i = 0; i < post_ids.Count(); i++)
             {
                 //execute single query against post table for post_ids[i]
-                var existing_post = existing_posts.FirstOrDefault(c => c.id == post_ids[i]);
+                post existing_post = existing_posts.FirstOrDefault(c => c.id == post_ids[i]);
                 if(existing_post != null)
                 {
                     //execute single query against user table for owner of post_ids[i] if exists
-                    var owner = existing_users.FirstOrDefault(c => c.id == existing_post.user_id);
+                    user owner = existing_users.FirstOrDefault(c => c.id == existing_post.user_id);
                     //if requesting_user is valid
                     if (user_id != 0)
                     {
                         //execute single query against like table if requesting_user liked post_ids[i]
-                        var liked_by_id = existing_likes.FirstOrDefault(c=>c.user_id == user_id && c.post_id == post_ids[i])?.id;
+                        int? liked_by_id = existing_likes.FirstOrDefault(c=>c.user_id == user_id && c.post_id == post_ids[i])?.id;
                         //execute single query against follow table if requesting_user follows owner of post_ids[i]
-                        var follow_by_following_id = existing_follow.FirstOrDefault(c=>c.follower_id == user_id && c.following_id == existing_post.user_id)?.following_id;
+                        int? follow_by_following_id = existing_follow.FirstOrDefault(c=>c.follower_id == user_id && c.following_id == existing_post.user_id)?.following_id;
                         user_liked = liked_by_id != null; 
                         user_followed = follow_by_following_id != null;   
                     }
